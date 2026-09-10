@@ -31,12 +31,11 @@ public class TraversePostorder {
 			}
 		}
 		
-		ArrayList<Integer> reversed = new ArrayList<>();
-		for (int i = list.size() - 1; i >= 0; i--) {
-            reversed.add(list.get(i));
-        }
+	   while (!queue.isEmpty()) {
+		   list.addFirst(queue.poll());
+	   }
  
 		
-		return reversed;
+		return list;
 	}
 }
