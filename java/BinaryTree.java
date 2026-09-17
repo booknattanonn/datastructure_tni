@@ -1,7 +1,14 @@
+package java;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class BinaryTree {
 
 	private Node root;
-
+	private Node parent;
+	private Node deleteNode;
+		
 	public BinaryTree() {
 		root = null;
 	}
@@ -9,6 +16,13 @@ public class BinaryTree {
 	public Node getRoot() {
 		return root;
 	}
+	public Node getParent() {
+		return parent;
+	}
+	public Node getdeleteNode(){
+		return deleteNode;
+	}
+		
 
 	public void printTree(Node node, int depth) {
 		if (node != null) {
@@ -36,22 +50,158 @@ public class BinaryTree {
 		root.left.left.left = new Node(2);
 		root.right = new Node(23);
 		root.right.left = new Node(19);
-		root.right.left.right = new Node(20);
-		
-		
-
+		root.right.left.right = new Node(20);			
 	}
 	
 	public void createTree3() {
 		root = new Node(50);
 		root.left = new Node(10);
+		root.right = new Node(22);
 		root.left.left = new Node(11);
 		root.left.right = new Node(12);
-		root.right = new Node(22);
 		root.right.right = new Node(24);
 		root.right.right.left = new Node(23);
-		
-
 	}
 	
+	public void createTree4() {
+		int[] num = {10, 8, 15, 2, 9, 18, 14, 20, 11, 17};
+		
+		for (int i : num) {
+			insert(i);
+		}
+	}
+	
+	public void createTree5() {
+		int[] num = {50,30,70,10,20,25,40,45,60,55,65};
+		
+		for (int i : num) {
+			insert(i);
+		}
+	}
+	public void createTree6() {
+		int[] num = {40,20,70,30,25,35,32,55,85,80};
+		
+		for (int i : num) {
+			insert(i);
+		}
+	}
+public void insert(int new_date) {
+		if (root == null) {
+			root = new Node(new_date);
+			
+		}else {
+			Node current_node = root;
+			while(true) {
+				if (new_date < current_node.data) {
+					if(current_node.left == null) {
+						current_node.left = new Node(new_date);
+						break;
+					}
+					current_node = current_node.left;
+					
+				}else {
+					if (current_node.right == null) {
+						current_node.right = new Node(new_date);
+						break;
+					}
+					current_node = current_node.right;
+				}
+			}
+		}
+	}
+public void searchDeleteNode(int target) {
+	Queue<Node> queue = new ArrayDeque<Node>();
+	queue.add(root);
+	
+	while (!queue.isEmpty()) {
+		int levelSize = queue.size();
+		Node current_node = queue.poll();
+		parent = current_node;
+		if(parent.data == target) {
+			deleteNode = parent;
+			break;
+		}
+		for (int i=0; i<levelSize; i++) {
+			if(current_node.left != null) {
+				if(current_node.left.data == target) {
+					deleteNode = current_node.left;
+					queue.clear();
+					break;
+				
+			}
+				queue.add(current_node.left);
+		
+          }
+			if(current_node.right != null) {
+				if(current_node.right.data == target) {
+					deleteNode = current_node.right;
+					queue.clear();
+					break;
+				}
+				queue.add(current_node.right);
+			}
+        }
+      }
+   }
+public void delete(int target) {
+	
+		searchDeleteNode(target);
+		if (root == null) {
+			System.out.println("Cannot found the delete node");
+		}else {
+			if(deleteNode.left == null && deleteNode.right == null) {
+				if(parent.left != null && parent.left.data == target) {
+					parent.left = null;
+				}else {
+					parent.right = null;
+				}
+				
+			}
+			//Case 2
+			if(deleteNode.left != null && deleteNode.right != null) {
+				Node successorParant = deleteNode;
+				Node successor = deleteNode.right;
+				
+				while(successor.left != null) {
+					successorParant = successor;
+					successor = successor.left;
+				}
+				deleteNode.data = successor.data;
+				
+				if (successorParant.left == successor) {
+					successorParant.left = successor.right;
+				}else {
+					successorParant.right = successor.right;
+				}
+			}
+			else if (deleteNode.left != null && deleteNode.right != null) {
+				
+			}
+			//Case3
+			else {
+				if (deleteNode.left != null) {
+					if (parent.left != null && parent.left.data == deleteNode.data) {
+						parent.left = deleteNode.left;
+					}else {
+						parent.right = deleteNode.left;
+					}
+				}else {
+					if(parent.left != null && parent.left.data == deleteNode.data) {
+						parent.left = deleteNode.left;
+					}else {
+						parent.right = deleteNode.right;
+						
+				}
+			}
+		}
+	}
+ }
 }
+
+
+
+
+
+
+
+

@@ -1,3 +1,5 @@
+package java;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
@@ -37,11 +39,10 @@ public class TreeHeight {
 	
 		}
 		return maxHeight-1;
-
-		return 0;
 	}
+
 	
-	public static int heightBFS(Node node) {
+public static int heightBFS(Node node) {
 		int height = 0;
 		if (node != null) {
 			Queue<Node> queue = new ArrayDeque<Node>();
@@ -61,10 +62,8 @@ public class TreeHeight {
 					queue.add(current_node.right);
 					
 				}
-			}
-	
-
-            
+			}	
+  
 		}
 		return height-1;
 	}
